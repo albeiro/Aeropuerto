@@ -1,8 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model AeropuertoTest.Models.Acceso
+@{
+    ViewData["Title"] = "Login";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Login</h1>
+    <div id="formIniciarSesion" >
+        <div class="form-group">
+            @Html.LabelFor(x => x.Usuario, new { @class = "control-label" })
+            @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(s => s.Contrasena, new { @class = "control-label" })
+            @Html.TextBoxFor(x => x.Contrasena, new { @class = "form-control" })
+
+        </div>
+        <div id="mensajeError" class="form-group alert alert-danger invisible">
+            <label>Usuario o contraseña incorrectos.</label>
+        </div>
+        <div class="form-group">
+            <input type="submit" onclick="IniciarSesion()" name="iniciar" value="Acceder" class="btn btn-success btn-block" />
+        </div>
+    </div>
 </div>
+
+<script>
+    function IniciarSesion() {
+        url = "@Url.Content("~/Home/IniciarSesion")"
+        usuario = document.getElementById("Usuario").value
+        contrasena = document.getElementById("Contrasena").value
+        var mensaje = document.getElementById("mensajeError");
+
+        if (usuario == "" || contrasena == "") {
+            mensaje.classList.remove("invisible");
+        }
+        else {
+            mensaje.classList.add("invisible");
+            parametros = { usuario: usuario, contrasena: contrasena }
+
+            $.post(url, parametros, function (data) {
+                if (data == usuario) {
+                    document.location.href="@Url.Content("~/Vuelo/")";
+                } else {
+                    mensaje.classList.remove("invisible");
+                }
+            })
+        }
+    }
+</script>  

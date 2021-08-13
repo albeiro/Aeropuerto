@@ -1,0 +1,60 @@
+﻿@model List<AeropuertoTest.Models.Vuelos.VueloBuscarViewModel>
+
+@{
+    ViewData["Title"] = "Vuelos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Crear" class="btn btn-primary">Nuevo vuelo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ciudad origen</th>
+            <th>Ciudad destino</th>
+            <th>Fecha salida</th>
+            <th>Fecha llegada</th>
+            <th>Numero vuelo</th>
+            <th>Aerolinea</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.CiudadOrigen)</td>
+            <td>@Html.DisplayFor(modelItem => item.CiudadDestino)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaSalida)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaLlegada)</td>
+            <td>@Html.DisplayFor(modelItem => item.NumeroVuelo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Aerolinea)</td>
+            <td>@Html.DisplayFor(modelItem => item.EstadoVuelo)</td>
+            <td>
+                <a onclick="document.location.href ='@Url.Content("~/Vuelo/ActualizarVuelo/"+item.Id)'" class="btn btn-warning">Actualizar</a>
+                <a onclick="EliminarVuelo(@item.Id)" class="btn btn-danger">Elimianr</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    function EliminarVuelo(id) {
+        url = "@Url.Content("~/Vuelo/EliminarVuelo/")"+id
+
+        $.post(url, function (data) {
+            if (data == -1) {
+                document.location.reload()
+            } else {
+                alert("error Eliminar vuelo")
+            }
+        })
+    }
+
+</script>
+       
