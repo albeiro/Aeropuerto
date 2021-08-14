@@ -1,47 +1,49 @@
 ﻿using AeropuertoTest.Context;
+using AeropuertoTest.Models.Ciudades;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace AeropuertoTest.Dominio.Usuarios
+namespace AeropuertoTest.Dominio.Ciudades
 {
-    public class UsuarioComandos
+    public class CiudadComandos
     {
         private string connetionString;
 
-        public UsuarioComandos()
+        public CiudadComandos()
         {
             var aeropuertoDb = new AeropuertoDb();
             connetionString = aeropuertoDb.GetConnectionString();
         }
-
-        public string BuscarUsuario(string usuario, string contrasena)
+        internal List<Ciudad> BuscarCiudad()
         {
-            var usuarioExiste = "";
+            var ciudades = new List<Ciudad>();
+            var errores = "";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connetionString))
                 {
-                    SqlCommand command = new SqlCommand("Sp_AccesoBuscar", connection);
+                    SqlCommand command = new SqlCommand("Sp_CiudadBuscar", connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Usuario", usuario);
-                    command.Parameters.AddWithValue("@Contrasena", contrasena);
 
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        usuarioExiste = reader.GetString(0);
+                        var ciudad = new Ciudad
+                        {
+                            Id = reader.GetInt32(0),
+                            Nombre = reader.GetString(1)
+                        };
+                        ciudades.Add(ciudad);
                     }
                     connection.Close();
                 }
-
-
             }
             catch (System.Exception e)
             {
-                usuarioExiste = e.Message;
+                errores = e.Message;
             }
-            return usuarioExiste;
+            return ciudades;
         }
     }
 }
-

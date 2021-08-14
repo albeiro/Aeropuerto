@@ -20,7 +20,7 @@ namespace AeropuertoTest.Controllers
         {
             var vueloComandos = new VueloComandos();
             var vuelos = vueloComandos.EliminarVuelo(id);
-            return View(vuelos);
+            return Content(vuelos);
         }
 
         [HttpGet]

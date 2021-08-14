@@ -22,11 +22,11 @@ namespace AeropuertoTest.Models.Vuelos
         public List<Ciudad> CiudadDestino { get; set; }
 
         [Required]
-        [Display(Name = "Fecha salida (AAA/MM/DD HH:mm:ss)")]
+        [Display(Name = "Fecha salida (AAA-MM-DD HH:mm:ss)")]
         public DateTime FechaSalida { get; set; }
 
         [Required]
-        [Display(Name = "Fecha llegada (AAA/MM/DD HH:mm:ss)")]
+        [Display(Name = "Fecha llegada (AAA-MM-DD HH:mm:ss)")]
         public DateTime FechaLlegada { get; set; }
 
         [Required]

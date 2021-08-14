@@ -48,7 +48,8 @@
         url = "@Url.Content("~/Vuelo/EliminarVuelo/")"+id
 
         $.post(url, function (data) {
-            if (data == -1) {
+            console.log(data)
+            if (data =="") {
                 document.location.reload()
             } else {
                 alert("error Eliminar vuelo")

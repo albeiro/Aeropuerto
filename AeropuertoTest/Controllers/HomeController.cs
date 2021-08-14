@@ -1,7 +1,6 @@
 ﻿using AeropuertoTest.Dominio.Usuarios;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace AeropuertoTest.Controllers
 {
     public class HomeController : Controller
@@ -10,7 +9,6 @@ namespace AeropuertoTest.Controllers
         {
             return View();
         }
-
 
 
         [HttpPost]
@@ -25,5 +23,6 @@ namespace AeropuertoTest.Controllers
             }
             return Content(result);
         }
+
     }
 }

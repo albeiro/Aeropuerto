@@ -14,12 +14,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CiudadOrigenId" class="control-label"></label>
-                <input asp-for="CiudadOrigenId" class="form-control" />
+                <select onclick="buscarCiudades()" asp-for="CiudadOrigenId" name="CiudadOrigenId" id="CiudadOrigenId" class="form-control">
+                    <option value="0">Seleccione una opcion</option>
+                </select>
                 <span asp-validation-for="CiudadOrigenId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CiudadDestinoId" class="control-label"></label>
-                <input asp-for="CiudadDestinoId" class="form-control" />
+                <select onclick="buscarCiudades()" asp-for="CiudadDestinoId" name="CiudadDestinoId" id="CiudadDestinoId" class=" form-control">
+                    <option value="0">Seleccione una opcion</option>
+                </select>
                 <span asp-validation-for="CiudadDestinoId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +43,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="AerolineaId" class="control-label"></label>
-                <input asp-for="AerolineaId" class="form-control" />
+                <select onclick="buscarAerolineas()" asp-for="AerolineaId" name="AerolineaId" id="AerolineaId" class="form-control">
+                    <option value="0">Seleccione una opcion</option>
+                </select>
                 <span asp-validation-for="AerolineaId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,9 +64,49 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }
 
+<script>
+    buscarCiuda = true;
+    buscarAerolinea = true;
+    function buscarCiudades() {
+        if (buscarCiuda) {
+            url = "@Url.Content("~/Ciudad/Buscar")"
+            var ciudadOrigen = document.getElementById("CiudadOrigenId")
+            var ciudadDestino = document.getElementById("CiudadDestinoId")
+            var opciones = '<option value="0">Seleccione una opcion</option>'
 
+            $.get(url, function (data) {
+                buscarCiuda = false;
+                ciudades = JSON.parse(data)
+                Object.keys(ciudades).forEach(key => {
+                    opciones += '<option value="' + ciudades[key].Id + '">' + ciudades[key].Nombre+'</option>'
+                });
+                ciudadOrigen.innerHTML = opciones
+                ciudadDestino.innerHTML = opciones
+            })
+
+        }
+    }
+
+    function buscarAerolineas() {
+        if (buscarAerolinea) {
+            url = "@Url.Content("~/Aerolinea/Buscar")"
+            var aerolinea = document.getElementById("AerolineaId")
+            var opciones = '<option value="0">Seleccione una opcion</option>'
+
+            $.get(url, function (data) {
+                buscarAerolinea = false;
+                aerolineas = JSON.parse(data)
+                Object.keys(aerolineas).forEach(key => {
+                    opciones += '<option value="' + aerolineas[key].Id + '">' + aerolineas[key].Nombre+'</option>'
+                });
+                aerolinea.innerHTML = opciones
+            })
+        }
+    }
+</script>
